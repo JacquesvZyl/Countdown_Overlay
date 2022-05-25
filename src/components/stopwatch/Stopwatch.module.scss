@@ -1,0 +1,47 @@
+.stopwatch {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid black;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 20px;
+
+    button {
+      -webkit-app-region: no-drag;
+      background-color: transparent;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      padding: 0px 2px;
+    }
+
+    .counterToggle {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      gap: 20px;
+
+      .button {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+    }
+  }
+}

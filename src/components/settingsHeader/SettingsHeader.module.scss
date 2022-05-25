@@ -1,0 +1,17 @@
+header {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+  -webkit-app-region: drag;
+  padding: 5px;
+  cursor: pointer;
+
+  .option {
+    -webkit-app-region: no-drag;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+  }
+}
