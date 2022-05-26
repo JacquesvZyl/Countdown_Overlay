@@ -1,0 +1,17 @@
+.sizeSetting {
+  p {
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .slider {
+    cursor: pointer;
+    &::-webkit-slider-thumb {
+      background-color: black;
+    }
+    &::-moz-range-thumb {
+      background: black;
+    }
+  }
+}

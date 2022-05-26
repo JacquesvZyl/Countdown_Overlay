@@ -18,6 +18,7 @@ function ColorPicker() {
   }
 
   function onSave() {
+    if (!color) return;
     dispatch(setCurrentColor(color));
   }
 

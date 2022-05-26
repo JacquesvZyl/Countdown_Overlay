@@ -14,8 +14,8 @@ function createWindow() {
     maxHeight: 800,
     maxWidth: 800,
     transparent: true,
-    frame: false,
-    autoHideMenuBar: true,
+    frame: true,
+    autoHideMenuBar: false,
     webPreferences: {
       //preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,

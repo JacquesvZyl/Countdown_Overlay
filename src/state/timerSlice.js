@@ -13,7 +13,11 @@ export const timeSlice = createSlice({
       state.timeInMs += action.payload;
     },
     removeFromTime: (state, action) => {
-      state.timeInMs -= action.payload;
+      const total =
+        state.timeInMs - action.payload < 0
+          ? 0
+          : state.timeInMs - action.payload;
+      state.timeInMs = total;
     },
     setTime: (state, action) => {
       state.timeInMs = action.payload;

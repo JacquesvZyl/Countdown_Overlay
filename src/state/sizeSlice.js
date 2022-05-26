@@ -9,12 +9,12 @@ export const sizeSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setSize: (state, action) => {
+    setStateSize: (state, action) => {
       state.size = action.payload;
     },
   },
 });
 
-export const { setSize } = sizeSlice.actions;
+export const { setStateSize } = sizeSlice.actions;
 
 export default sizeSlice.reducer;
