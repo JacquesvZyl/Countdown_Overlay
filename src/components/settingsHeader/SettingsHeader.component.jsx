@@ -9,18 +9,24 @@ import {
 } from "../../helperFunctions/electron";
 
 import styles from "./SettingsHeader.module.scss";
+import { useSelector } from "react-redux";
 
-function SettingsHeader() {
+function SettingsHeader({ setSettings }) {
+  const stateColor = useSelector((state) => state.color.color);
+
+  function openSettings() {
+    setSettings((prevVal) => !prevVal);
+  }
   return (
     <header>
-      <div className={styles.option} onClick={settings}>
-        <SettingsSVG width="15px" />
+      <div className={styles.option} onClick={openSettings}>
+        <SettingsSVG width="15px" fill={stateColor} />
       </div>
       <div className={styles.option} onClick={minimizeApp}>
-        <MinimizeSVG fill="black" width="15px" />
+        <MinimizeSVG fill={stateColor} width="15px" />
       </div>
       <div className={styles.option} onClick={closeApp}>
-        <CloseSVG fill="black" width="15px" />
+        <CloseSVG fill={stateColor} width="15px" />
       </div>
     </header>
   );

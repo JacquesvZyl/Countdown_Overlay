@@ -1,5 +1,9 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require("electron");
+const {
+  default: installExtension,
+  REDUX_DEVTOOLS,
+} = require("electron-devtools-installer");
 const ipc = ipcMain;
 
 const path = require("path");
@@ -7,10 +11,8 @@ const path = require("path");
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 200,
-    height: 150,
-    maxHeight: 150,
-    maxWidth: 200,
+    maxHeight: 800,
+    maxWidth: 800,
     transparent: true,
     frame: false,
     autoHideMenuBar: true,
@@ -36,31 +38,15 @@ function createWindow() {
   ipc.on("minimize-btn", () => {
     mainWindow.minimize();
   });
-
-  //SETTINGS WINDOW
-  ipc.on("settings-btn", () => {
-    let settingsWindow = new BrowserWindow({
-      parent: mainWindow,
-      width: 600,
-      height: 600,
-      transparent: false,
-      frame: true,
-      autoHideMenuBar: false,
-      webPreferences: {
-        //preload: path.join(__dirname, "preload.js"),
-        nodeIntegration: true,
-        contextIsolation: false,
-      },
-    });
-
-    settingsWindow.loadURL("http://localhost:3000/settings");
-  });
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log("An error occurred: ", err));
   createWindow();
 
   app.on("activate", function () {

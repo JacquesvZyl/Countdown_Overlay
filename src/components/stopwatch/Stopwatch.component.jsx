@@ -1,15 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import useCountDown from "react-countdown-hook";
 import styles from "./Stopwatch.module.scss";
-import TimeContext from "../../state/TimeContext";
 import { formatTimer } from "../../helperFunctions/timer";
 import SettingsHeader from "../settingsHeader/SettingsHeader.component";
 import { ReactComponent as AddSVG } from "../../assets/img/add.svg";
 import { ReactComponent as RemoveSVG } from "../../assets/img/remove.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { addToTime, removeFromTime } from "../../state/timerSlice";
 
 const Stopwatch = () => {
-  const { timeInMs, addToTime, removeFromTime } = useContext(TimeContext);
+  const dispatch = useDispatch();
+  const stateColor = useSelector((state) => state.color.color);
+  const stateSize = useSelector((state) => state.size.size);
+  console.log(stateSize);
+  const timeInMs = useSelector((state) => state.timer.timeInMs);
   const [countdownStarted, setCountdownStarted] = useState(false);
   const [isTimerPaused, setTimerPaused] = useState(false);
 
@@ -38,43 +43,55 @@ const Stopwatch = () => {
   const formattedTimeLeft = formatTimer(timeLeft);
 
   const pauseResumeButtons = !isTimerPaused ? (
-    <button onClick={pauseTimer}>Pause</button>
+    <button onClick={pauseTimer} style={{ color: stateColor }}>
+      Pause
+    </button>
   ) : (
-    <button onClick={resumeTimer}>Resume</button>
+    <button onClick={resumeTimer} style={{ color: stateColor }}>
+      Resume
+    </button>
   );
 
   const startResetButtons = !countdownStarted ? (
-    <button onClick={startTimer}>Start</button>
+    <button onClick={startTimer} style={{ color: stateColor }}>
+      Start
+    </button>
   ) : (
-    <button onClick={resetTimer}>Reset</button>
+    <button onClick={resetTimer} style={{ color: stateColor }}>
+      Reset
+    </button>
   );
 
   const counterToggleBtns = !countdownStarted ? (
     <div className={styles.counterToggle}>
       <button onClick={removeFromTimeHandler}>
-        <RemoveSVG width="16px" />
+        <RemoveSVG width="16px" color={stateColor} />
       </button>
       <button onClick={addToTimeHandler}>
-        <AddSVG width="15px" />
+        <AddSVG width="15px" fill={stateColor} />
       </button>
     </div>
   ) : null;
 
   function addToTimeHandler() {
-    addToTime(60000);
+    dispatch(addToTime(60000));
   }
   function removeFromTimeHandler() {
-    removeFromTime(60000);
+    dispatch(removeFromTime(60000));
   }
 
   return (
     <div className={styles.stopwatch}>
-      <SettingsHeader />
-      <h1>{!countdownStarted ? formattedTotalTime : formattedTimeLeft}</h1>
-      <div className={styles.buttons}>
-        {startResetButtons}
-        {counterToggleBtns}
-        {countdownStarted && pauseResumeButtons}
+      <div
+        className={styles.stopwatchCountainer}
+        style={{ transform: `scale(${stateSize ? stateSize : 1})` }}
+      >
+        <h1>{!countdownStarted ? formattedTotalTime : formattedTimeLeft}</h1>
+        <div className={styles.buttons}>
+          {startResetButtons}
+          {counterToggleBtns}
+          {countdownStarted && pauseResumeButtons}
+        </div>
       </div>
     </div>
   );

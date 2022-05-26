@@ -1,11 +1,11 @@
 .stopwatch {
-  padding: 5px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: transparent;
-  border: 1px solid black;
+
   -webkit-app-region: drag;
   -webkit-user-select: none;
 

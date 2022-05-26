@@ -1,0 +1,11 @@
+.button {
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin: 10px 0px;
+  max-width: 100px;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}

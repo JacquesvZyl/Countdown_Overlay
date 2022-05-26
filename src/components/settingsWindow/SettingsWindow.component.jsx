@@ -1,16 +1,16 @@
-import React, { useContext } from "react";
-import TimeContext from "../../state/TimeContext";
+import React from "react";
+import ColorPicker from "./ColorPicker/ColorPicker.component";
 import CounterInput from "./counterInput/CounterInput.component";
-import CounterSettings from "./CounterSettings/CounterSettings.component";
+
+import SettingsUI from "./settingsUI/SettingsUI.component";
 import styles from "./SettingsWindow.module.scss";
 
 function SettingsWindow() {
-  const { hr, min, sec } = useContext(TimeContext);
-
   return (
     <div className={styles.settings}>
-      <CounterSettings />
-      <button>SAVE SETTINGS</button>
+      <CounterInput />
+
+      <ColorPicker />
     </div>
   );
 }

@@ -1,19 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
-import TimeContext from "../../../state/TimeContext";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTimeRemaining } from "../../../helperFunctions/timer";
+import { setTime } from "../../../state/timerSlice";
+import Button from "../../button/Button.component";
+import SettingsUI from "../settingsUI/SettingsUI.component";
 import styles from "./CounterInput.module.scss";
 
-function CounterInput({ label }) {
-  const { timeInMs, setTime } = useContext(TimeContext);
+function CounterInput() {
+  const timeInMs = useSelector((state) => state.timer.timeInMs);
+  const stateColor = useSelector((state) => state.color.color);
+  const { hours, minutes, seconds } = getTimeRemaining(timeInMs);
+  const dispatch = useDispatch();
   const [selectedTime, setSelectedTime] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    hours,
+    minutes,
+    seconds,
   });
 
   function onHourChangehandler(e) {
     const { value } = e.target;
     setSelectedTime((prevVal) => {
-      return { ...prevVal, hours: +value * 3600000 };
+      return { ...prevVal, hours: +value };
     });
   }
 
@@ -21,59 +28,73 @@ function CounterInput({ label }) {
     const { value } = e.target;
 
     setSelectedTime((prevVal) => {
-      return { ...prevVal, minutes: +value * 60000 };
+      return { ...prevVal, minutes: +value };
     });
   }
 
   function onSecondChangehandler(e) {
     const { value } = e.target;
     setSelectedTime((prevVal) => {
-      return { ...prevVal, seconds: +value * 1000 };
+      return { ...prevVal, seconds: +value };
     });
   }
 
   function onSave() {
     const { hours, minutes, seconds } = selectedTime;
-    const total = hours + minutes + seconds;
-    setTime(total);
+
+    const total = hours * 3600000 + minutes * 60000 + seconds * 1000;
+    dispatch(setTime(total));
   }
 
-  const options = [...Array(60)].map((_, i) => (
-    <option key={i} value={i}>
+  const hourOption = [...Array(60)].map((_, i) => (
+    <option key={i} value={i} {...(i === hours ? { selected: "true" } : {})}>
+      {i < 10 ? `0${i}` : i}
+    </option>
+  ));
+  const minuteOption = [...Array(60)].map((_, i) => (
+    <option key={i} value={i} {...(i === minutes ? { selected: "true" } : {})}>
+      {i < 10 ? `0${i}` : i}
+    </option>
+  ));
+  const secondOption = [...Array(60)].map((_, i) => (
+    <option key={i} value={i} {...(i === seconds ? { selected: "true" } : {})}>
       {i < 10 ? `0${i}` : i}
     </option>
   ));
 
   return (
-    <>
+    <SettingsUI title="timer settings">
       <div className={styles.allDropdowns}>
         <div className={styles.dropDown}>
           <h4>Hours</h4>
-          <select value="hours" onChange={onHourChangehandler}>
-            {options}
+          <select
+            style={{ border: `1px solid ${stateColor}`, color: stateColor }}
+            onChange={onHourChangehandler}
+          >
+            {hourOption}
           </select>
         </div>
         <div className={styles.dropDown}>
           <h4>Minutes</h4>
-          <select value="minutes" onChange={onMinuteChangehandler}>
-            {options}
+          <select
+            style={{ border: `1px solid ${stateColor}`, color: stateColor }}
+            onChange={onMinuteChangehandler}
+          >
+            {minuteOption}
           </select>
         </div>
         <div className={styles.dropDown}>
           <h4>Seconds</h4>
-          <select value="seconds" onChange={onSecondChangehandler}>
-            {options}
-          </select>
-          <select value="seconds" onChange={onSecondChangehandler}>
-            <option>test1</option>
-            <option>test3</option>
-            <option>test4</option>
-            <option>test5</option>
+          <select
+            style={{ border: `1px solid ${stateColor}`, color: stateColor }}
+            onChange={onSecondChangehandler}
+          >
+            {secondOption}
           </select>
         </div>
       </div>
-      <button onClick={onSave}>Save</button>
-    </>
+      <Button onClick={onSave}>Save</Button>
+    </SettingsUI>
   );
 }
 
