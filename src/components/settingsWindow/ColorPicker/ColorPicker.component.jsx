@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveLocalContent } from "../../../helperFunctions/electron";
+
 import { setCurrentColor } from "../../../state/colorSlice";
+
 import Button from "../../button/Button.component";
 import SettingsUI from "../settingsUI/SettingsUI.component";
 import styles from "./ColorPicker.module.scss";
@@ -20,6 +23,7 @@ function ColorPicker() {
   function onSave() {
     if (!color) return;
     dispatch(setCurrentColor(color));
+    saveLocalContent("data.color", color);
   }
 
   return (

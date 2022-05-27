@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveLocalContent } from "../../../helperFunctions/electron";
 import { setStateSize } from "../../../state/sizeSlice";
 import Button from "../../button/Button.component";
 import SettingsUI from "../settingsUI/SettingsUI.component";
@@ -19,6 +20,7 @@ function SizeSetting() {
 
   function onSave() {
     dispatch(setStateSize(size));
+    saveLocalContent("data.size", size);
   }
 
   const styling = {

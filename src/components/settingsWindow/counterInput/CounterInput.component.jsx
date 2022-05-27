@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveLocalContent } from "../../../helperFunctions/electron";
+import { hexToRgbA } from "../../../helperFunctions/general";
 import { getTimeRemaining } from "../../../helperFunctions/timer";
 import { setTime } from "../../../state/timerSlice";
 import Button from "../../button/Button.component";
@@ -16,6 +18,7 @@ function CounterInput() {
     minutes,
     seconds,
   });
+  const RgbaValues = hexToRgbA(stateColor);
 
   function onHourChangehandler(e) {
     const { value } = e.target;
@@ -44,6 +47,7 @@ function CounterInput() {
 
     const total = hours * 3600000 + minutes * 60000 + seconds * 1000;
     dispatch(setTime(total));
+    saveLocalContent("data.time", total);
   }
 
   const hourOption = [...Array(60)].map((_, i) => (
@@ -68,7 +72,11 @@ function CounterInput() {
         <div className={styles.dropDown}>
           <h4>Hours</h4>
           <select
-            style={{ border: `1px solid ${stateColor}`, color: stateColor }}
+            style={{
+              border: `1px solid ${stateColor}`,
+              color: stateColor,
+              backgroundColor: RgbaValues,
+            }}
             onChange={onHourChangehandler}
           >
             {hourOption}
@@ -77,7 +85,11 @@ function CounterInput() {
         <div className={styles.dropDown}>
           <h4>Minutes</h4>
           <select
-            style={{ border: `1px solid ${stateColor}`, color: stateColor }}
+            style={{
+              border: `1px solid ${stateColor}`,
+              color: stateColor,
+              backgroundColor: RgbaValues,
+            }}
             onChange={onMinuteChangehandler}
           >
             {minuteOption}
@@ -86,7 +98,11 @@ function CounterInput() {
         <div className={styles.dropDown}>
           <h4>Seconds</h4>
           <select
-            style={{ border: `1px solid ${stateColor}`, color: stateColor }}
+            style={{
+              border: `1px solid ${stateColor}`,
+              color: stateColor,
+              backgroundColor: RgbaValues,
+            }}
             onChange={onSecondChangehandler}
           >
             {secondOption}

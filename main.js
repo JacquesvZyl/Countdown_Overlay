@@ -4,6 +4,17 @@ const {
   default: installExtension,
   REDUX_DEVTOOLS,
 } = require("electron-devtools-installer");
+const Store = require("electron-store");
+
+const localStore = new Store({
+  data: {
+    color: "#000000",
+    size: null,
+    notification: null,
+    time: null,
+  },
+});
+
 const ipc = ipcMain;
 
 const path = require("path");
@@ -37,6 +48,17 @@ function createWindow() {
   //MINIMIZE WINDOW
   ipc.on("minimize-btn", () => {
     mainWindow.minimize();
+  });
+
+  ipc.on("saveContent", (e, name, value) => {
+    console.log(name + " " + value);
+    localStore.set(name, value);
+  });
+
+  ipcMain.handle("loadContent", (event, key) => {
+    const data = localStore.get(key);
+    if (!data) return null;
+    return data;
   });
 }
 

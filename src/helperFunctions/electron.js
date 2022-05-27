@@ -10,3 +10,11 @@ export function minimizeApp() {
 export function settings() {
   ipc.send("settings-btn", true);
 }
+export function saveLocalContent(key, data) {
+  ipc.send("saveContent", key, data);
+}
+
+export async function loadData(key) {
+  const resp = await ipc.invoke("loadContent", key);
+  return resp;
+}
