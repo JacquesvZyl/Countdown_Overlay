@@ -1,3 +1,16 @@
-input {
-  width: 200px;
+.colors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 20px;
+
+  .colorContainer {
+    text-align: center;
+
+    input {
+      margin-top: 10px;
+      width: 120px;
+    }
+  }
 }

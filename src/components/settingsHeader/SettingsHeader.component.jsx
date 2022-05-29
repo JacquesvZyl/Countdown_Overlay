@@ -3,11 +3,7 @@ import { ReactComponent as SettingsSVG } from "../../assets/img/settings-gear.sv
 import { ReactComponent as MinimizeSVG } from "../../assets/img/minimize.svg";
 import { ReactComponent as CloseSVG } from "../../assets/img/close.svg";
 import { ReactComponent as BackSVG } from "../../assets/img/back.svg";
-import {
-  closeApp,
-  minimizeApp,
-  settings,
-} from "../../helperFunctions/electron";
+import { closeApp, minimizeApp } from "../../helperFunctions/electron";
 
 import styles from "./SettingsHeader.module.scss";
 import { useSelector } from "react-redux";

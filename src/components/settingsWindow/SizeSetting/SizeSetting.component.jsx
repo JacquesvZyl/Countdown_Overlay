@@ -8,7 +8,6 @@ import styles from "./SizeSetting.module.scss";
 
 function SizeSetting() {
   const stateSize = useSelector((state) => state.size.size);
-  const stateColor = useSelector((state) => state.color.color);
   const [size, setSize] = useState(stateSize);
   const dispatch = useDispatch();
 
@@ -23,10 +22,6 @@ function SizeSetting() {
     saveLocalContent("data.size", size);
   }
 
-  const styling = {
-    display:
-      "-webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex",
-  };
   return (
     <SettingsUI title="size Settings">
       <div className={styles.sizeSetting}>

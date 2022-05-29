@@ -1,14 +1,13 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require("electron");
-const {
-  default: installExtension,
-  REDUX_DEVTOOLS,
-} = require("electron-devtools-installer");
+const isDev = require("electron-is-dev");
+
 const Store = require("electron-store");
 
 const localStore = new Store({
   data: {
     color: "#000000",
+    bgColor: null,
     size: null,
     notification: null,
     time: null,
@@ -19,14 +18,28 @@ const ipc = ipcMain;
 
 const path = require("path");
 
+const unhandled = require("electron-unhandled");
+
+unhandled({
+  logger: () => {
+    console.error();
+  },
+  showDialog: true,
+  reportButton: (error) => {
+    console.log("Report Button Initialized");
+  },
+});
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    height: 200,
+    width: 300,
     maxHeight: 800,
     maxWidth: 800,
     transparent: true,
-    frame: true,
-    autoHideMenuBar: false,
+    frame: false,
+    autoHideMenuBar: true,
     webPreferences: {
       //preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
@@ -35,13 +48,22 @@ function createWindow() {
   });
 
   mainWindow.setAlwaysOnTop(true, "screen");
+  mainWindow.setTitle("Timer Overlay");
 
   // and load the index.html of the app.
-  mainWindow.loadURL("http://localhost:3000/");
+  const prodUrl = {
+    pathname: path.join(__dirname, "/../build/index.html"),
+    protocol: "file:",
+    slashes: true,
+  };
+  mainWindow.loadURL(
+    isDev
+      ? "http://localhost:3000"
+      : `file://${path.join(__dirname, "../build/index.html")}`
+  );
 
   ///CLOSE WINDOW
   ipc.on("close-btn", () => {
-    console.log("clicked");
     mainWindow.close();
   });
 
@@ -50,9 +72,11 @@ function createWindow() {
     mainWindow.minimize();
   });
 
-  ipc.on("saveContent", (e, name, value) => {
-    console.log(name + " " + value);
-    localStore.set(name, value);
+  ipc.on("saveContent", (e, key, value) => {
+    value ? localStore.set(key, value) : localStore.set(key, null);
+  });
+  ipc.on("deleteContent", (e, key) => {
+    localStore.delete(key);
   });
 
   ipcMain.handle("loadContent", (event, key) => {
@@ -66,9 +90,6 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  installExtension(REDUX_DEVTOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log("An error occurred: ", err));
   createWindow();
 
   app.on("activate", function () {

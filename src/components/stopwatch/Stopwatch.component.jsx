@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import useCountDown from "react-countdown-hook";
 import styles from "./Stopwatch.module.scss";
 import { formatTimer } from "../../helperFunctions/timer";
-import SettingsHeader from "../settingsHeader/SettingsHeader.component";
 import { ReactComponent as AddSVG } from "../../assets/img/add.svg";
 import { ReactComponent as RemoveSVG } from "../../assets/img/remove.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,18 +15,18 @@ const Stopwatch = () => {
   const stateNotification = useSelector(
     (state) => state.notification.notification
   );
-  console.log(stateSize);
+
   const timeInMs = useSelector((state) => state.timer.timeInMs);
   const [countdownStarted, setCountdownStarted] = useState(false);
   const [isTimerPaused, setTimerPaused] = useState(false);
 
   //const totalTimeInMilliSec = min * 60000 + sec * 1000;
   const [timeLeft, actions] = useCountDown(timeInMs, 100);
+  const notification = new Audio(stateNotification);
 
   useEffect(() => {
     if (timeLeft === 0 && countdownStarted) {
-      let song = new Audio(stateNotification);
-      song.play();
+      notification.play();
     }
   }, [timeLeft, countdownStarted]);
 

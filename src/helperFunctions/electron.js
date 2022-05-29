@@ -13,6 +13,9 @@ export function settings() {
 export function saveLocalContent(key, data) {
   ipc.send("saveContent", key, data);
 }
+export function deleteLocalContent(key) {
+  ipc.send("deleteContent", key);
+}
 
 export async function loadData(key) {
   const resp = await ipc.invoke("loadContent", key);
