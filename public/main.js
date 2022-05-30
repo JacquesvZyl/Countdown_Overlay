@@ -8,7 +8,7 @@ const localStore = new Store({
   data: {
     color: "#000000",
     bgColor: null,
-    size: null,
+    size: 1,
     notification: null,
     time: null,
   },
@@ -37,6 +37,7 @@ function createWindow() {
     width: 300,
     maxHeight: 800,
     maxWidth: 800,
+    icon: `${path.join(__dirname, "/favicon.ico")}`,
     transparent: true,
     frame: false,
     autoHideMenuBar: true,

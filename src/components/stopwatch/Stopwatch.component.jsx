@@ -28,7 +28,7 @@ const Stopwatch = () => {
     if (timeLeft === 0 && countdownStarted) {
       notification.play();
     }
-  }, [timeLeft, countdownStarted]);
+  }, [timeLeft, countdownStarted, notification]);
 
   function startTimer() {
     setCountdownStarted(true);

@@ -14,22 +14,26 @@
   },
   "main": "public/main.js",
   "homepage": "./",
-  "name": "timer-overlay",
-  "productName": "Timer Overlay",
-  "description": "Timer Overlay is a simple countdown timer which you can put on top of any other open desktop applications",
+  "name": "countdown-overlay",
+  "productName": "Countdown Overlay",
+  "description": "Countdown Overlay is a simple countdown timer which you can put on top of any other open desktop applications",
   "author": "Jacques van Zyl",
   "icon": "public/favicon.ico",
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron:build": "npm run build --prod && electron-builder -c.extraMetadata.main=build/main.js",
+    "electron:build": "npm run build --prod  && electron-builder -c.icon=public/favicon.ico -c.extraMetadata.version=1.0.0 -c.extraMetadata.main=build/main.js",
     "start-electron": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\" "
   },
   "build": {
     "extends": null,
     "appId": "CountDownTimer",
+    "win": {
+      "icon": "public/favicon.ico"
+    },
     "files": [
       "dist/**/*",
       "build/**/*",
